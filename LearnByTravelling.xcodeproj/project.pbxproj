@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C33CAB2A2DAC248200BD7756 /* CountryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33CAB292DAC248200BD7756 /* CountryDetailView.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		C33CAB122DAC20F500BD7756 /* LearnByTravelling.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnByTravelling.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C33CAB292DAC248200BD7756 /* CountryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +37,7 @@
 		C33CAB092DAC20F500BD7756 = {
 			isa = PBXGroup;
 			children = (
+				C33CAB262DAC243F00BD7756 /* Views */,
 				C33CAB142DAC20F500BD7756 /* LearnByTravelling */,
 				C33CAB132DAC20F500BD7756 /* Products */,
 			);
@@ -43,6 +49,14 @@
 				C33CAB122DAC20F500BD7756 /* LearnByTravelling.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C33CAB262DAC243F00BD7756 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C33CAB292DAC248200BD7756 /* CountryDetailView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -119,6 +133,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C33CAB2A2DAC248200BD7756 /* CountryDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
