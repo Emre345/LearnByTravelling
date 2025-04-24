@@ -9,10 +9,20 @@ import SwiftUI
 
 struct BrazilView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text("Brezilya")
+                .font(.largeTitle)
+                .padding()
+
+            Image("brezilya")
+                .resizable()
+                .frame(width: 100, height: 70)
+
+            Text("Brezilya, Güney Amerika'da yer alır ve başkenti Brasília'dır.")
+                .padding()
+        }
+        .navigationTitle("Brezilya")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
-#Preview {
-    BrazilView()
-}

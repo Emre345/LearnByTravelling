@@ -9,10 +9,21 @@ import SwiftUI
 
 struct JapanView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text("Japonya")
+                .font(.largeTitle)
+                .padding()
+
+            Image("japonya")
+                .resizable()
+                .frame(width: 100, height: 70)
+
+            Text("Japonya, Doğu Asya'da bir ada ülkesidir. Başkenti Tokyo'dur.")
+                .padding()
+        }
+        .navigationTitle("Japonya")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
-#Preview {
-    JapanView()
-}
+

@@ -9,10 +9,21 @@ import SwiftUI
 
 struct EgyptView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text("Mısır")
+                .font(.largeTitle)
+                .padding()
+
+            Image("mısır")
+                .resizable()
+                .frame(width: 100, height: 70)
+
+            Text("Mısır, Kuzey Afrika'da yer alan bir ülkedir. Başkenti Kahire'dir.")
+                .padding()
+        }
+        .navigationTitle("Mısır")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
-#Preview {
-    EgyptView()
-}
+
