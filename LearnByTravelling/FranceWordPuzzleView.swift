@@ -8,26 +8,27 @@
 import SwiftUI
 
 struct FranceWordPuzzleView: View {
-    // 100 kelime örneği
     let allWords = [
-        "eyfel", "paris", "şarap", "baget", "moda", "sanat", "louvre", "kültür", "aşk", "müzik",
-        "fransa", "kafeler", "tarihi", "şato", "manzara", "katedral", "croissant", "bağbozumu", "montmartre", "resim",
-        "paté", "cheese", "romantik", "bretanya", "normandiya", "alpler", "monako", "nis", "lyon", "marsilya",
-        "bordeaux", "nice", "strasbourg", "avignon", "toulouse", "cannes", "renkli", "seine", "sokak", "sanatçı",
-        "modaevleri", "pazar", "çiçek", "şato", "revolüsyon", "bağımsızlık", "mona", "müzeler", "şair", "roman",
-        "ekler", "makaron", "mutfak", "şarküteri", "üzüm", "peynir", "sanayi", "otomobil", "ekonomi", "turizm",
-        "anıt", "üniversite", "edebiyat", "tiyatro", "çizgi", "film", "şövalye", "gotik", "barok", "renk",
-        "yemek", "çikolata", "krema", "şef", "şaraplık", "köy", "plaj", "kültürel", "festival", "dans",
-        "eser", "akademi", "klasik", "başkent", "gezgin", "rehber", "fotoğraf", "anı", "anıtsal", "katedral",
-        "demokrasi", "anlam", "hayal", "bulvar", "zengin", "gelenek", "ihtilal", "macera", "tatil", "rota"
+        "paris", "eyfel", "şarap", "moda", "baget", "aşk", "müzik", "resim", "renk", "kafeler",
+        "tarih", "şato", "köy", "plaj", "sanat", "dans", "film", "şehir", "anı", "çizgi",
+        "fotoğraf", "krem", "pazar", "çiçek", "anıt", "tiyatro", "roman", "üzüm", "peynir", "tatil",
+        "rota", "katedral", "gelenek", "kültür", "turizm", "plaka", "tatlı", "kahve", "göl", "yemek",
+        "mutfak", "ekler", "makaron", "hayal", "yol", "köprü", "gezi", "kule", "ışık", "rüya"
     ]
 
     @State private var selectedWords: [String] = []
+    @State private var shuffledWords: [String] = []
     @State private var currentIndex = 0
     @State private var userInput = ""
+    @State private var errorMessage = ""
+    @State private var passCount = 2
     @State private var startTime = Date()
     @State private var gameEnded = false
     @State private var elapsedTime: TimeInterval = 0
+    @State private var answers: [(word: String, result: Bool)] = []
+    
+    @FocusState private var isTextFieldFocused: Bool
+    @State private var animateCorrect = false
 
     let totalQuestions = 10
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -51,16 +52,19 @@ struct FranceWordPuzzleView: View {
                 Text("Kelime \(currentIndex + 1) / \(totalQuestions)")
                     .font(.headline)
 
-                // Rastgele kelime uzunluğu kadar alt çizgi
-                Text("_ " + String(repeating: "_ ", count: selectedWords[currentIndex].count))
-                    .font(.title)
+                Text(shuffledWords[currentIndex].map { String($0) }.joined(separator: " "))
+                    .font(.largeTitle)
                     .padding()
+                    .scaleEffect(animateCorrect ? 1.2 : 1.0) // Animasyon: zıplama
+                    .foregroundColor(animateCorrect ? .green : .primary) // Animasyon: renk değişimi
+                    .animation(.easeOut(duration: 0.3), value: animateCorrect)
 
                 TextField("Tahmininizi yazın", text: $userInput, onCommit: checkAnswer)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
+                    .focused($isTextFieldFocused)
 
                 Button("Kontrol Et", action: checkAnswer)
                     .padding()
@@ -68,9 +72,25 @@ struct FranceWordPuzzleView: View {
                     .foregroundColor(.white)
                     .cornerRadius(10)
 
+                if !errorMessage.isEmpty {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .padding(.top, 5)
+                }
+
+                Button(action: passWord) {
+                    Text("Pas (\(passCount))")
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(passCount > 0 ? Color.orange : Color.gray)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                .disabled(passCount == 0)
+                .padding(.horizontal)
+
                 Spacer()
-            }
-            else {
+            } else {
                 Text("🎉 Oyun Bitti!")
                     .font(.largeTitle)
                     .padding()
@@ -81,6 +101,18 @@ struct FranceWordPuzzleView: View {
                 Text(evaluationMessage())
                     .padding()
                     .foregroundColor(.gray)
+                
+                List {
+                    ForEach(answers, id: \.word) { answer in
+                        HStack {
+                            Text(answer.word)
+                            Spacer()
+                            Image(systemName: answer.result ? "checkmark.circle.fill" : "xmark.circle.fill")
+                                .foregroundColor(answer.result ? .green : .red)
+                        }
+                    }
+                }
+                .frame(height: 300)
             }
         }
         .padding()
@@ -88,16 +120,43 @@ struct FranceWordPuzzleView: View {
             let shuffled = allWords.shuffled()
             if shuffled.count >= totalQuestions {
                 selectedWords = Array(shuffled.prefix(totalQuestions))
+                shuffledWords = selectedWords.map { String($0.shuffled()) }
                 startTime = Date()
+                isTextFieldFocused = true
             }
         }
     }
 
     func checkAnswer() {
-        if userInput.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) == selectedWords[currentIndex] {
+        let trimmedInput = userInput.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmedInput == selectedWords[currentIndex] {
+            errorMessage = ""
+            answers.append((word: selectedWords[currentIndex], result: true))
+            animateCorrect = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                animateCorrect = false
+            }
             userInput = ""
             if currentIndex + 1 < totalQuestions {
                 currentIndex += 1
+                isTextFieldFocused = true
+            } else {
+                gameEnded = true
+            }
+        } else {
+            errorMessage = "❌ Yanlış tahmin, tekrar deneyin."
+        }
+    }
+
+    func passWord() {
+        if passCount > 0 {
+            passCount -= 1
+            errorMessage = ""
+            answers.append((word: selectedWords[currentIndex], result: false))
+            userInput = ""
+            if currentIndex + 1 < totalQuestions {
+                currentIndex += 1
+                isTextFieldFocused = true
             } else {
                 gameEnded = true
             }
@@ -125,5 +184,7 @@ struct FranceWordPuzzleView: View {
         }
     }
 }
+
+
 
 
