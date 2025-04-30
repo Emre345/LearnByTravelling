@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C336DD572DC21E1D005AD2B2 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = C336DD562DC21E1D005AD2B2 /* ConfettiSwiftUI */; };
 		C33CAB2A2DAC248200BD7756 /* CountryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33CAB292DAC248200BD7756 /* CountryDetailView.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +29,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C336DD572DC21E1D005AD2B2 /* ConfettiSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +81,7 @@
 			);
 			name = LearnByTravelling;
 			packageProductDependencies = (
+				C336DD562DC21E1D005AD2B2 /* ConfettiSwiftUI */,
 			);
 			productName = LearnByTravelling;
 			productReference = C33CAB122DAC20F500BD7756 /* LearnByTravelling.app */;
@@ -108,6 +111,9 @@
 			);
 			mainGroup = C33CAB092DAC20F500BD7756;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C336DD552DC21E1D005AD2B2 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C33CAB132DAC20F500BD7756 /* Products */;
 			projectDirPath = "";
@@ -350,6 +356,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C336DD552DC21E1D005AD2B2 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/simibac/ConfettiSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C336DD562DC21E1D005AD2B2 /* ConfettiSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C336DD552DC21E1D005AD2B2 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */;
+			productName = ConfettiSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C33CAB0A2DAC20F500BD7756 /* Project object */;
 }
