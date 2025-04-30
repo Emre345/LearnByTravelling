@@ -30,7 +30,6 @@ Fransa, Avrupa kıtasında yer alan ve kültürü, mutfağı ve tarihiyle öne �
             Spacer()
         }
         .padding()
-        .navigationTitle("Fransa Detay")
     }
 }
 

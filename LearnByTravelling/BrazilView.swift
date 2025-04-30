@@ -9,20 +9,25 @@ import SwiftUI
 
 struct BrazilView: View {
     var body: some View {
-        VStack {
-            Text("Brezilya")
+        VStack(spacing: 30) {
+            Text("🇧🇷 Brezilya Hakkında")
                 .font(.largeTitle)
-                .padding()
+                .bold()
+            Text("""
+Brezilya, Güney Amerika'da yer alır ve başkenti Brasília'dır.
+""")
+            .padding()
+            NavigationLink(destination: BrazilWordPuzzleView()) {
+                Text("🧩 Brezilya Bulmacası Oyna")
+                    .padding()
+                    .background(Color.blue.opacity(0.8))
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+            }
 
-            Image("brezilya")
-                .resizable()
-                .frame(width: 100, height: 70)
-
-            Text("Brezilya, Güney Amerika'da yer alır ve başkenti Brasília'dır.")
-                .padding()
+            Spacer()
         }
-        .navigationTitle("Brezilya")
-        .navigationBarTitleDisplayMode(.inline)
+        .padding()
     }
 }
 

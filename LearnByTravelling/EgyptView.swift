@@ -9,20 +9,25 @@ import SwiftUI
 
 struct EgyptView: View {
     var body: some View {
-        VStack {
-            Text("Mısır")
+        VStack(spacing: 30) {
+            Text("🇪🇬 Mısır Hakkında")
                 .font(.largeTitle)
-                .padding()
+                .bold()
+            Text("""
+Mısır, Kuzey Afrika'da yer alan bir ülkedir. Başkenti Kahire'dir.
+""")
+            .padding()
+            NavigationLink(destination: EgyptWordPuzzleView()) {
+                Text("🧩 Mısır Bulmacası Oyna")
+                    .padding()
+                    .background(Color.blue.opacity(0.8))
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+            }
 
-            Image("mısır")
-                .resizable()
-                .frame(width: 100, height: 70)
-
-            Text("Mısır, Kuzey Afrika'da yer alan bir ülkedir. Başkenti Kahire'dir.")
-                .padding()
+            Spacer()
         }
-        .navigationTitle("Mısır")
-        .navigationBarTitleDisplayMode(.inline)
+        .padding()
     }
 }
 

@@ -9,11 +9,15 @@ import ConfettiSwiftUI
 
 struct FranceWordPuzzleView: View {
     let allWords = [
-        "paris", "eyfel", "şarap", "moda", "baget", "aşk", "müzik", "resim", "renk", "kafeler",
-        "tarih", "şato", "köy", "plaj", "sanat", "dans", "film", "şehir", "anı", "çizgi",
-        "fotoğraf", "krem", "pazar", "çiçek", "anıt", "tiyatro", "roman", "üzüm", "peynir", "tatil",
-        "rota", "katedral", "gelenek", "kültür", "turizm", "plaka", "tatlı", "kahve", "göl", "yemek",
-        "mutfak", "ekler", "makaron", "hayal", "yol", "köprü", "gezi", "kule", "ışık", "rüya"
+        "paris", "eyfel", "metro", "kafeler", "bistro", "baget", "şehir", "cadde", "bulvar", "park",
+        "müze", "köprü", "katedral", "anıt", "sokak", "turist", "otobüs", "tren", "harita", "rota",
+        "otogar", "taksi", "otel", "bilet", "rota", "plaka", "posta", "çöp", "çarşı",
+        "mahalle", "çıkmaz", "otopark", "bisiklet", "trafik", "lamba", "kaldırım", "durak", "bank",
+        "belediye", "kule", "yürüyüş", "panjur", "balkon", "gökdelen", "alışveriş", "yol",
+        "navigasyon", "reklam", "cafe", "bar", "restoran", "konser", "sanat", "sinema", "tiyatro",
+        "parkmetre", "otomat", "gezinti", "pazar", "takvim", "hava", "sokaklar",
+        "nüfus", "karakol", "heykel", "bankamatik", "duvar", "çatı", "ışık", "gece", "manzara", "gezgin",
+        "turizm", "rezerve", "gezilecek", "meydan", "merkez", "imkan", "kültür"
     ]
 
     @State private var currentWord = ""
@@ -27,6 +31,7 @@ struct FranceWordPuzzleView: View {
     @State private var animateColor: Color = .primary
     @State private var animateScale: CGFloat = 1.0
     @State private var confettiCounter = 0
+    @State private var usedWords: Set<String> = []
     @FocusState private var isTextFieldFocused: Bool
 
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -35,7 +40,7 @@ struct FranceWordPuzzleView: View {
         VStack {
             HStack {
                 Spacer()
-                Text("⏳ \(timeRemaining) sn")
+                Text("⏱️ \(timeRemaining) sn")
                     .padding()
                     .onReceive(timer) { _ in
                         if !gameEnded {
@@ -119,8 +124,6 @@ struct FranceWordPuzzleView: View {
                         }
                     }
                 )
-
-
             }
         }
         .padding()
@@ -128,16 +131,28 @@ struct FranceWordPuzzleView: View {
     }
 
     func nextWord() {
-        if let newWord = allWords.randomElement() {
+        let unusedWords = allWords.filter { !usedWords.contains($0) }
+
+        guard !unusedWords.isEmpty else {
+            endGame()
+            return
+        }
+
+        if let newWord = unusedWords.randomElement() {
             currentWord = newWord
             currentShuffledWord = String(newWord.shuffled())
             userInput = ""
+            usedWords.insert(newWord)
             isTextFieldFocused = true
         }
     }
 
     func checkAnswer() {
         let trimmedInput = userInput.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+
+        // Boş tahminlerde işlem yapma
+        guard !trimmedInput.isEmpty else { return }
+
         let isCorrect = trimmedInput == currentWord
 
         if isCorrect {
@@ -174,17 +189,17 @@ struct FranceWordPuzzleView: View {
         }
     }
 
-
     func evaluationMessage() -> String {
         switch score {
         case 100...:
-            return "🌟 Süper! Çok hızlıydın!"
+            return "🗼 Harika! Fransa kültürünü çok iyi tanıyorsun!"
         case 80..<100:
-            return "👏 Çok iyi bir performans!"
+            return "👏 Güzel iş! Az kaldı Fransa ustası olmaya!"
         case 60..<80:
             return "🙂 İyi iş çıkardın!"
         default:
-            return "💡 İdare eder, biraz daha pratik!"
+            return "💡 İdare eder, belki biraz kruvasan iyi gelir!"
         }
     }
 }
+

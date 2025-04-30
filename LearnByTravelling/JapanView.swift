@@ -9,20 +9,25 @@ import SwiftUI
 
 struct JapanView: View {
     var body: some View {
-        VStack {
-            Text("Japonya")
+        VStack(spacing: 30) {
+            Text("🇯🇵 Japonya Hakkında")
                 .font(.largeTitle)
-                .padding()
+                .bold()
+            Text("""
+Japonya, Doğu Asya'da bir ada ülkesidir. Başkenti Tokyo'dur.
+""")
+            .padding()
+            NavigationLink(destination: JapanWordPuzzleView()) {
+                Text("🧩 Japonya Bulmacası Oyna (Zor Seviye)")
+                    .padding()
+                    .background(Color.blue.opacity(0.8))
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+            }
 
-            Image("japonya")
-                .resizable()
-                .frame(width: 100, height: 70)
-
-            Text("Japonya, Doğu Asya'da bir ada ülkesidir. Başkenti Tokyo'dur.")
-                .padding()
+            Spacer()
         }
-        .navigationTitle("Japonya")
-        .navigationBarTitleDisplayMode(.inline)
+        .padding()
     }
 }
 
